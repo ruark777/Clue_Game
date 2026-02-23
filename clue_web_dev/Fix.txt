@@ -1,0 +1,4 @@
+Major mechanic missing:
+
+when an AI fails an Accusation and is out of the game,
+thier cards are to be automatically shown and updated within Notebook.
