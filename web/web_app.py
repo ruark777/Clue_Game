@@ -29,7 +29,7 @@ class WebClueGame:
         self.player_turn_active = True
         self.current_ai_index = 0
         self.game_log = []
-        self.version = "2.0.4"
+        self.version = "2.0.5"
         self.created_at = datetime.now().isoformat()
         self.player_suggested_this_turn = False
         self.auto_track_notebook = True
@@ -132,7 +132,7 @@ class WebClueGame:
         output.append(f"=== CLUE GAME v{self.version} ===")
         output.append(f"Game ID: {self.game_id}")
         output.append(f"Started: {self.created_at[:10]}")
-        output.append(f"File: web_app.py (Updated: 2026-02-17)")
+        output.append(f"File: web_app.py (Updated: 2026-03-08)")
         output.append("")
         
         # Player info
@@ -870,6 +870,12 @@ Determine who committed the murder, with what weapon, and in which room.
             else:
                 game.add_log(f"WRONG! {ai_char} (AI_{ai_number})'s accusation was incorrect")
                 game.add_log(f"{ai_char} (AI_{ai_number}) is out of the game!")
+                # Reveal all cards of the eliminated AI to other players
+                eliminated_hand = game.game.ai_hands[game.current_ai_index]
+                game.add_log(f"{ai_char}'s cards are revealed: {', '.join(eliminated_hand)}")
+                # Mark all cards as revealed for notebook tracking
+                for card in eliminated_hand:
+                    game.track_revealed_card(card, f"{ai_char} (eliminated)")
                 # Remove this AI from future turns
                 game.game.ai_characters[game.current_ai_index] = None
         
